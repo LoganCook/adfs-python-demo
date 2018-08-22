@@ -1,0 +1,4 @@
+RESOURCE = "http://id"  # relying party identifier in Application Groups -> Web API
+AUTHORITY_HOST_URL = "https://ersa.adfs.server/adfs"
+CLIENT_ID = "client id of server application in Application Groups"
+CLIENT_SECRET = "secret generated when the group was created"  # cannot retrieve once generated

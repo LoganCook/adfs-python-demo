@@ -5,7 +5,7 @@ import config
 import logging
 from adal.constants import OAuth2
 from decode import validate
-
+import requests
 
 OAuth2.IdTokenMap['email'] = 'email'
 OAuth2.IdTokenMap['unique_name'] = 'name'
@@ -73,12 +73,13 @@ def main_logic():
     # demo of how to validate access_token
     validate(token_response['accessToken'])
 
-    # It is recommended to save this to a database when using a production app.
     flask.session['access_token'] = token_response['accessToken']
+    header = {'Authorization': 'Bearer ' + token_response['accessToken']}
 
+    res = requests.get('http://localhost:8000/account/', headers=header)
     # if set up for userinfo endpoint, use this redirect
     # return flask.redirect('/userinfo')
-    return flask.render_template('display_graph_info.html', graph_data=token_response)
+    return flask.render_template('display_accounts.html', content={'accounts': res.json(), 'token': token_response})
 
 
 if __name__ == "__main__":
